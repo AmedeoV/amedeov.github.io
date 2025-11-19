@@ -1,0 +1,43 @@
+---
+layout: post.njk
+title: Gitleaks Pre-Commit Hook
+date: 2024-11-18
+tags: [tools, security, git]
+---
+
+<p>As a software engineer, sometimes when troubleshooting something I need to hardcode passwords locally to connect to DEV environments. Yeah, I could use environment variables and all that... but let's be honest - when you just want to quickly check something, hardcoding it is the fastest way. I know, I'm lazy.</p>
+
+<p>Specifically, I was trying to verify that a password for connecting to Redis in DEV was correct. After adding it to the code and testing it, I had that sinking feeling about "what if I accidentally commit and push this?" That got me thinking - I really need to automate this check.</p>
+
+<p>Initially I used TruffleHog and wrote a <a href="https://github.com/AmedeoV/trufflehog-pre-commit-hook" target="_blank">pre-commit hook script for it</a>. But after chatting with a few colleagues, they suggested I have a look at Gitleaks instead. The key difference? TruffleHog tries to verify if secrets are actually valid, but that's not what I wanted. Even if something looks like a false positive, I want to be the one who decides that. Gitleaks just flags patterns and lets you deal with it - which is exactly the behavior I needed.</p>
+
+<p>Now, Gitleaks does offer a <a href="https://github.com/gitleaks/gitleaks?tab=readme-ov-file#pre-commit" target="_blank">pre-commit setup in their README</a>, but that involves installing the pre-commit package manager and configuring it per repository. I work with over 100 repos. I need something simple that works globally across all of them, not something I have to set up individually for each project. Yes, I am still lazy..</p>
+
+<p>So I wrote a script that does it all in one go.</p>
+
+<h2>What it does</h2>
+<p>Basically runs Gitleaks before every commit. If it finds something that looks like a secret (API keys, tokens, passwords, whatever), it blocks the commit. Simple.</p>
+
+<p style="text-align: center; margin: 2rem 0;">
+    <img src="/images/gitleaks-block-example.png" alt="Gitleaks blocking a commit with a Slack token" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border: 1px solid #3e4451;">
+</p>
+<p style="text-align: center; color: #5c6370; font-size: 0.9rem; margin-top: -1rem; margin-bottom: 2rem;">Gitleaks catching a Slack token before it gets committed</p>
+
+<p>One command to install:</p>
+<pre style="background: #21252b; padding: 1rem; border-radius: 6px; overflow-x: auto; border-left: 3px solid #98c379;"><code>curl -sSL https://raw.githubusercontent.com/AmedeoV/gitleaks-pre-commit-hook/refs/heads/main/gitleaks-local-git-pre-hook.sh | bash</code></pre>
+
+<p>Then it just works everywhere. All repos, automatically protected.</p>
+
+<h2>Why I like it</h2>
+<p>I don't have to think about it. That's the whole point. I code, I commit, if there's something sensitive in there, it stops me. Done.</p>
+
+<p>It detects like 100+ different types of secrets out of the box. You can add custom rules too if you have specific patterns you want to catch.</p>
+
+<h2>One small annoyance</h2>
+<p>Sometimes it flags false positives. But you can bypass with <code style="color: #98c379;">--no-verify</code> when you're sure it's safe. Haven't needed to do that often though.</p>
+
+<p>Already saved me twice from pushing stuff I shouldn't. Feels good knowing it's there watching.</p>
+
+<p style="margin-top: 2rem; padding: 1rem; background: #21252b; border-radius: 6px; border-left: 3px solid #61afef;">
+    <strong>Link:</strong> <a href="https://github.com/AmedeoV/gitleaks-pre-commit-hook" target="_blank" style="color: #61afef;">github.com/AmedeoV/gitleaks-pre-commit-hook</a>
+</p>

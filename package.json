@@ -1,0 +1,17 @@
+{
+  "name": "step0fail-blog",
+  "version": "1.0.0",
+  "description": "Personal blog powered by Eleventy",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve",
+    "clean": "rm -rf _site"
+  },
+  "keywords": ["blog", "eleventy"],
+  "author": "AmedeoV",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-plugin-rss": "^1.2.0"
+  }
+}

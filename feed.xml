@@ -1,0 +1,24 @@
+---
+layout: none
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title | xml_escape }}</title>
+    <description>{{ site.description | xml_escape }}</description>
+    <link>{{ site.url }}</link>
+    <atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    <generator>Jekyll v{{ jekyll.version }}</generator>
+    
+    <item>
+      <title>Gitleaks Pre-Commit Hook</title>
+      <description>As a software engineer, sometimes when troubleshooting something I need to hardcode passwords locally to connect to DEV environments. A one-line installation tool that automatically scans your code for secrets before every commit.</description>
+      <pubDate>Mon, 18 Nov 2025 00:00:00 +0000</pubDate>
+      <link>{{ site.url }}/posts/gitleaks-post.html</link>
+      <guid isPermaLink="true">{{ site.url }}/posts/gitleaks-post.html</guid>
+    </item>
+    
+  </channel>
+</rss>
