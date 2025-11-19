@@ -17,7 +17,9 @@
         <article class="post-content">
             <h1>Gitleaks Pre-Commit Hook</h1>
             
-            <p>So last week I almost pushed an API key to a public repo. Caught it just in time, but it got me thinking — I really need to automate this check.</p>
+            <p>As a software engineer, sometimes when troubleshooting something I need to hardcode passwords locally to connect to DEV environments. Yeah, I could use environment variables and all that... but let's be honest - when you just want to quickly check something, hardcoding it is the fastest way. I know, I'm lazy.</p>
+            
+            <p>Specifically, I was trying to verify that a password for connecting to Redis in DEV was correct. After adding it to the code and testing it, I had that sinking feeling about "what if I accidentally commit and push this?" That got me thinking — I really need to automate this check.</p>
             
             <p>Found Gitleaks, which is great, but setting it up as a global pre-commit hook was more steps than I wanted to remember. So I wrote a script that does it all in one go.</p>
             
