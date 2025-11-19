@@ -25,6 +25,7 @@ header {
     padding: 1.5rem 0;
     border-bottom: 1px solid #3e4451;
     box-shadow: 0 4px 20px rgba(97, 175, 239, 0.1);
+    margin-bottom: 3rem;
 }
 
 header h1 {
