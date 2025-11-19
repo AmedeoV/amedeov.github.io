@@ -19,9 +19,13 @@
             
             <p>As a software engineer, sometimes when troubleshooting something I need to hardcode passwords locally to connect to DEV environments. Yeah, I could use environment variables and all that... but let's be honest - when you just want to quickly check something, hardcoding it is the fastest way. I know, I'm lazy.</p>
             
-            <p>Specifically, I was trying to verify that a password for connecting to Redis in DEV was correct. After adding it to the code and testing it, I had that sinking feeling about "what if I accidentally commit and push this?" That got me thinking — I really need to automate this check.</p>
+            <p>Specifically, I was trying to verify that a password for connecting to Redis in DEV was correct. After adding it to the code and testing it, I had that sinking feeling about "what if I accidentally commit and push this?" That got me thinking - I really need to automate this check.</p>
             
-            <p>Found Gitleaks, which is great, but setting it up as a global pre-commit hook was more steps than I wanted to remember. So I wrote a script that does it all in one go.</p>
+            <p>Initially I used TruffleHog and wrote a <a href="https://github.com/AmedeoV/trufflehog-pre-commit-hook" target="_blank">pre-commit hook script for it</a>. But after chatting with a few colleagues, they suggested I have a look at Gitleaks instead. The key difference? TruffleHog tries to verify if secrets are actually valid, but that's not what I wanted. Even if something looks like a false positive, I want to be the one who decides that. Gitleaks just flags patterns and lets you deal with it - which is exactly the behavior I needed.</p>
+            
+            <p>Now, Gitleaks does offer a <a href="https://github.com/gitleaks/gitleaks?tab=readme-ov-file#pre-commit" target="_blank">pre-commit setup in their README</a>, but that involves installing the pre-commit package manager and configuring it per repository. I work with over 100 repos. I need something simple that works globally across all of them, not something I have to set up individually for each project. Yes, I am still lazy..</p>
+            
+            <p>So I wrote a script that does it all in one go.</p>
             
             <h2>What it does</h2>
             <p>Basically runs Gitleaks before every commit. If it finds something that looks like a secret (API keys, tokens, passwords, whatever), it blocks the commit. Simple.</p>
