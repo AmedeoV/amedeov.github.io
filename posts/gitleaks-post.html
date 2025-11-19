@@ -16,6 +16,11 @@ title: Gitleaks Pre-Commit Hook
 <h2>What it does</h2>
 <p>Basically runs Gitleaks before every commit. If it finds something that looks like a secret (API keys, tokens, passwords, whatever), it blocks the commit. Simple.</p>
 
+<p style="text-align: center; margin: 2rem 0;">
+    <img src="../images/gitleaks-block-example.png" alt="Gitleaks blocking a commit with a Slack token" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border: 1px solid #3e4451;">
+</p>
+<p style="text-align: center; color: #5c6370; font-size: 0.9rem; margin-top: -1rem; margin-bottom: 2rem;">Gitleaks catching a Slack token before it gets committed</p>
+
 <p>One command to install:</p>
 <pre style="background: #21252b; padding: 1rem; border-radius: 6px; overflow-x: auto; border-left: 3px solid #98c379;"><code>curl -sSL https://raw.githubusercontent.com/AmedeoV/gitleaks-pre-commit-hook/refs/heads/main/gitleaks-local-git-pre-hook.sh | bash</code></pre>
 
