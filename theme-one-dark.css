@@ -197,11 +197,10 @@ footer {
 /* Post Content Styles */
 .post-content {
     background: #21252b;
-    padding: 2.5rem;
+    padding: 3rem;
     border-radius: 6px;
-    border-left: 3px solid #61afef;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
+    max-width: 1000px;
 }
 
 .post-content h1 {
