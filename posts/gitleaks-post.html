@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gitleaks Pre-Commit Hook - Step0Fail Blog</title>
+    <link rel="stylesheet" href="../theme-one-dark.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="../index.html" style="color: inherit; text-decoration: none;">Step0Fail Blog</a></h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post-content">
+            <h1>Built a thing to stop myself from leaking secrets</h1>
+            
+            <p>So last week I almost pushed an API key to a public repo. Caught it just in time, but it got me thinking — I really need to automate this check.</p>
+            
+            <p>Found Gitleaks, which is great, but setting it up as a global pre-commit hook was more steps than I wanted to remember. So I wrote a script that does it all in one go.</p>
+            
+            <h2>What it does</h2>
+            <p>Basically runs Gitleaks before every commit. If it finds something that looks like a secret (API keys, tokens, passwords, whatever), it blocks the commit. Simple.</p>
+            
+            <p>One command to install:</p>
+            <pre style="background: #21252b; padding: 1rem; border-radius: 6px; overflow-x: auto; border-left: 3px solid #98c379;"><code>curl -sSL https://raw.githubusercontent.com/AmedeoV/gitleaks-pre-commit-hook/refs/heads/main/gitleaks-local-git-pre-hook.sh | bash</code></pre>
+            
+            <p>Then it just works everywhere. All repos, automatically protected.</p>
+            
+            <h2>Why I like it</h2>
+            <p>I don't have to think about it. That's the whole point. I code, I commit, if there's something sensitive in there, it stops me. Done.</p>
+            
+            <p>It detects like 100+ different types of secrets out of the box. You can add custom rules too if you have specific patterns you want to catch.</p>
+            
+            <h2>One small annoyance</h2>
+            <p>Sometimes it flags false positives. But you can bypass with <code style="color: #98c379;">--no-verify</code> when you're sure it's safe. Haven't needed to do that often though.</p>
+            
+            <p>Already saved me twice from pushing stuff I shouldn't. Feels good knowing it's there watching.</p>
+            
+            <p style="margin-top: 2rem; padding: 1rem; background: #21252b; border-radius: 6px; border-left: 3px solid #61afef;">
+                <strong>Link:</strong> <a href="https://github.com/AmedeoV/gitleaks-pre-commit-hook" target="_blank" style="color: #61afef;">github.com/AmedeoV/gitleaks-pre-commit-hook</a>
+            </p>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Step0Fail Blog. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
