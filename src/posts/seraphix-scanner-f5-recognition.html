@@ -1,0 +1,61 @@
+---
+layout: post.njk
+title: Seraphix - The Scanner That Got Me F5 Security Recognition
+date: 2024-10-08
+tags: [security, tools, open-source]
+---
+
+<p>I built a tool called <a href="https://github.com/AmedeoV/seraphix" target="_blank">Seraphix</a>. It's a secret scanning toolkit designed for bug bounty hunters and security researchers who need to scan GitHub at scale. The kind of scale where you're not just checking one repo - you're auditing entire organizations, hunting through force-pushed commits, and finding secrets people thought they deleted.</p>
+
+<h2>What makes it different</h2>
+
+<p>Most scanners are built for single-org audits and hit API rate limits fast. Seraphix is built for mass scanning - it can hammer through hundreds of orgs and repos in parallel, all running locally to avoid being throttled by GitHub's API. When you need to scan 50+ organizations at once, this matters.</p>
+
+<p>Plus, it goes deeper. When developers accidentally commit secrets and panic with a <code style="color: #98c379;">git push --force</code> to "delete" them, those commits often become dangling but still accessible. Seraphix specifically targets these force-pushed commits using filtered GHArchive data.</p>
+
+<p style="text-align: center; margin: 2rem 0;">
+    <img src="/images/seraphix-scan-demo.gif" alt="Seraphix scanning force-pushed commits for secrets" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border: 1px solid #3e4451;">
+</p>
+<p style="text-align: center; color: #5c6370; font-size: 0.9rem; margin-top: -1rem; margin-bottom: 2rem;">Seraphix hunting for secrets in a force-pushed commit</p>
+
+<p>The idea came from <a href="https://trufflesecurity.com/blog/guest-post-how-i-scanned-all-of-github-s-oops-commits-for-leaked-secrets" target="_blank">Sharon Brizinov's work</a> on scanning GitHub's "oops" commits. I wanted that capability in a toolkit I could actually use for real hunting.</p>
+
+<h2>Core features</h2>
+
+<p><strong>Mass organization scanning</strong> - Point it at a GitHub org (or a list of orgs) and it'll parallelize everything automatically. Calculates optimal workers based on your system.</p>
+
+<p><strong>Force-push goldmine</strong> - The unique advantage. Finds secrets in commits people tried to erase. Uses TruffleHog for verification.</p>
+
+<p><strong>Bug bounty utility</strong> - Generates lists of GitHub organizations with bug bounty programs. Feed that directly into the mass scanner.</p>
+
+<p><strong>Targeted scanning</strong> - Can also focus on specific repos or individual commits when you need precision.</p>
+
+<h2>Analytics that actually help</h2>
+
+<p>Every scan generates an interactive dashboard showing secret statistics, risk assessment, and verification status. You can enable real-time alerts via Telegram, Discord, or email so you don't have to wait for scans to finish.</p>
+
+<p style="text-align: center; margin: 2rem 0;">
+    <img src="/images/seraphix-dashboard.png" alt="Seraphix interactive dashboard showing scan results" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border: 1px solid #3e4451;">
+</p>
+<p style="text-align: center; color: #5c6370; font-size: 0.9rem; margin-top: -1rem; margin-bottom: 2rem;">Interactive dashboard for analyzing discovered secrets</p>
+
+<h2>The result</h2>
+
+<p>Using Seraphix led to me discovering vulnerabilities that got me acknowledged by F5 in their <a href="https://my.f5.com/manage/s/article/K75282801#top-of-article-54" target="_blank">SIRT Security Researcher Acknowledgement program</a>. Pretty cool seeing your name there.</p>
+
+<h2>Quick start</h2>
+
+<pre style="background: #21252b; padding: 1rem; border-radius: 6px; overflow-x: auto; border-left: 3px solid #98c379;"><code>git clone https://github.com/AmedeoV/seraphix.git
+cd seraphix
+./install_requirements.sh
+
+# Scan an org (e.g., top 10 Microsoft repos)
+cd org-scanner/
+./scan_org.sh microsoft --max-repos 10</code></pre>
+
+<p>It's written in Shell and Python, so it's portable and easy to deploy.</p>
+
+<p style="margin-top: 2rem; padding: 1rem; background: #21252b; border-radius: 6px; border-left: 3px solid #61afef;">
+    <strong>GitHub:</strong> <a href="https://github.com/AmedeoV/seraphix" target="_blank" style="color: #61afef;">github.com/AmedeoV/seraphix</a><br>
+    <strong>Original Medium post:</strong> <a href="https://medium.com/@amedeo.vertullo/seraphix-the-scanner-toolkit-that-led-to-f5-security-researcher-recognition-9ab7c5a1ce17" target="_blank" style="color: #61afef;">Read more</a>
+</p>
