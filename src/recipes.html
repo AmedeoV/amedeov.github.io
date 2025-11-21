@@ -107,7 +107,7 @@ title: Recipes
 /* Tag filter */
 .tag-filter {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
     padding: 1rem;
     background: #21252b;
     border-radius: 5px;
@@ -124,7 +124,7 @@ title: Recipes
 
 .tag-filter-toggle {
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     cursor: pointer;
     color: #61afef;
     font-size: 0.9rem;
@@ -219,43 +219,47 @@ title: Recipes
     </div>
 
     <div class="tab-panels">
-        <section class="blog-posts tab-content" id="made-section">
-            <h2 style="color: #98c379; margin-bottom: 1.5rem;">Recipes I've Made</h2>
+        <section class="tab-content" id="made-section">
+            <h2 style="color: #98c379; margin-top: 0.5rem; margin-bottom: 1.5rem;">Recipes I've Made</h2>
             <p style="color: #abb2bf; margin-bottom: 2rem;">Food I cook and actually enjoy eating.</p>
             
-            <article class="post-preview" style="border-left-color: #98c379;" data-tags="bread bread-maker">
-                <h3><a href="/recipes/50-50-wholemeal-bread/">50/50 Wholemeal Bread (Medium Loaf)</a></h3>
-                <p>Simple 50/50 wholemeal bread for the bread maker. Does the job.</p>
-                <div class="recipe-tags">
-                    <span class="recipe-tag">bread</span>
-                    <span class="recipe-tag">bread-maker</span>
-                </div>
-                <a href="/recipes/50-50-wholemeal-bread/" class="read-more">Read more →</a>
-            </article>
+            <div class="blog-posts" style="gap: 2rem;">
+                <article class="post-preview" style="border-left-color: #98c379;" data-tags="bread bread-maker">
+                    <h3><a href="/recipes/50-50-wholemeal-bread/">50/50 Wholemeal Bread (Medium Loaf)</a></h3>
+                    <p>Simple 50/50 wholemeal bread for the bread maker. Does the job.</p>
+                    <div class="recipe-tags">
+                        <span class="recipe-tag">bread</span>
+                        <span class="recipe-tag">bread-maker</span>
+                    </div>
+                    <a href="/recipes/50-50-wholemeal-bread/" class="read-more">Read more →</a>
+                </article>
+            </div>
         </section>
 
-        <section class="blog-posts tab-content" id="to-try-section">
-            <h2 style="color: #61afef; margin-bottom: 1.5rem;">To Try</h2>
+        <section class="tab-content" id="to-try-section">
+            <h2 style="color: #61afef; margin-top: 0.5rem; margin-bottom: 1.5rem;">To Try</h2>
             <p style="color: #abb2bf; margin-bottom: 2rem;">Recipes on my list to make.</p>
             
-            <article class="post-preview" style="border-left-color: #61afef;" data-tags="pizza bread-maker">
-                <h3><a href="/recipes/pizza-dough-3-people/">Pizza Dough for 3 People</a></h3>
-                <p>Makes 2 medium pizzas or 1 large + 1 small. Uses program 26 on the bread maker.</p>
-                <div class="recipe-tags">
-                    <span class="recipe-tag">pizza</span>
-                    <span class="recipe-tag">bread-maker</span>
-                </div>
-                <a href="/recipes/pizza-dough-3-people/" class="read-more">Read more →</a>
-            </article>
+            <div class="blog-posts" style="gap: 2rem;">
+                <article class="post-preview" style="border-left-color: #61afef;" data-tags="pizza bread-maker">
+                    <h3><a href="/recipes/pizza-dough-3-people/">Pizza Dough for 3 People</a></h3>
+                    <p>Makes 2 medium pizzas or 1 large + 1 small. Uses program 26 on the bread maker.</p>
+                    <div class="recipe-tags">
+                        <span class="recipe-tag">pizza</span>
+                        <span class="recipe-tag">bread-maker</span>
+                    </div>
+                    <a href="/recipes/pizza-dough-3-people/" class="read-more">Read more →</a>
+                </article>
 
-            <article class="post-preview" style="border-left-color: #61afef;" data-tags="pizza">
-                <h3><a href="/recipes/classic-pizza-dough-ooni/">Classic Pizza Dough (Ooni)</a></h3>
-                <p>The classic Neapolitan pizza dough. Makes 3-4 dough balls for thin crust pizzas. 3-4 hour prep with rising time.</p>
-                <div class="recipe-tags">
-                    <span class="recipe-tag">pizza</span>
-                </div>
-                <a href="/recipes/classic-pizza-dough-ooni/" class="read-more">Read more →</a>
-            </article>
+                <article class="post-preview" style="border-left-color: #61afef;" data-tags="pizza">
+                    <h3><a href="/recipes/classic-pizza-dough-ooni/">Classic Pizza Dough (Ooni)</a></h3>
+                    <p>The classic Neapolitan pizza dough. Makes 3-4 dough balls for thin crust pizzas. 3-4 hour prep with rising time.</p>
+                    <div class="recipe-tags">
+                        <span class="recipe-tag">pizza</span>
+                    </div>
+                    <a href="/recipes/classic-pizza-dough-ooni/" class="read-more">Read more →</a>
+                </article>
+            </div>
         </section>
     </div>
 </div>

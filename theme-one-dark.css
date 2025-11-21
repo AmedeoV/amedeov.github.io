@@ -99,7 +99,7 @@ main {
 .blog-posts {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
 .post-preview {
@@ -333,7 +333,10 @@ footer {
     /* Blog post preview cards */
     .post-preview {
         padding: 1.25rem;
-        margin-bottom: 1rem;
+    }
+    
+    .blog-posts {
+        gap: 1.5rem;
     }
 
     .post-preview h3 {
