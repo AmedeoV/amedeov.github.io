@@ -231,6 +231,7 @@ footer {
 .post-content ol {
     margin-bottom: 1.5rem;
     margin-left: 2rem;
+    padding-left: 0.5rem;
 }
 
 .post-content li {
