@@ -3,18 +3,310 @@ layout: default.njk
 title: Recipes
 ---
 
-<section class="blog-posts">
-    <h2 style="color: #e06c75; margin-bottom: 1.5rem;">Recipes I've Made</h2>
-    <p style="color: #abb2bf; margin-bottom: 2rem;">Food I cook and actually enjoy eating.</p>
-    
-    <article class="post-preview">
-        <h3><a href="/recipes/50-50-wholemeal-bread/">50/50 Wholemeal Bread (Medium Loaf)</a></h3>
-        <p>Simple 50/50 wholemeal bread for the bread maker. Does the job.</p>
-        <a href="/recipes/50-50-wholemeal-bread/" class="read-more">Read more →</a>
-    </article>
+<style>
+/* Tab system using :target without scrolling */
+.recipe-tabs {
+    position: relative;
+}
 
-    <h2 style="color: #61afef; margin-top: 3rem; margin-bottom: 1.5rem;">To Try</h2>
-    <p style="color: #abb2bf; margin-bottom: 2rem;">Recipes on my list to make.</p>
-    
-    <!-- Add "to try" recipes here -->
-</section>
+.tab-anchor {
+    position: absolute;
+    top: -9999px;
+}
+
+/* Hide sections by default */
+.tab-content {
+    display: none;
+}
+
+/* Show Made by default */
+#made-section {
+    display: block;
+}
+
+/* Show Made when #made is active */
+#made:target ~ .tab-panels #made-section {
+    display: block;
+}
+
+#made:target ~ .tab-panels #to-try-section {
+    display: none;
+}
+
+/* Show To Try when #to-try is active */
+#to-try:target ~ .tab-panels #to-try-section {
+    display: block;
+}
+
+#to-try:target ~ .tab-panels #made-section {
+    display: none;
+}
+
+/* Active tab styling */
+.recipe-nav a {
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.recipe-nav a:hover {
+    opacity: 1;
+}
+
+/* Default active (Made) */
+.recipe-nav a[href="#made"] {
+    opacity: 1;
+}
+
+/* When Made is targeted */
+#made:target ~ .recipe-nav a[href="#made"] {
+    opacity: 1;
+}
+
+#made:target ~ .recipe-nav a[href="#to-try"] {
+    opacity: 0.6;
+}
+
+/* When To Try is targeted */
+#to-try:target ~ .recipe-nav a[href="#to-try"] {
+    opacity: 1;
+}
+
+#to-try:target ~ .recipe-nav a[href="#made"] {
+    opacity: 0.6;
+}
+
+/* Recipe tags */
+.recipe-tags {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.recipe-tag {
+    display: inline-block;
+    background: #3e4451;
+    color: #abb2bf;
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.recipe-tag:hover {
+    background: #4b5263;
+}
+
+.recipe-tag.active {
+    background: #61afef;
+    color: #282c34;
+}
+
+/* Tag filter */
+.tag-filter {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #21252b;
+    border-radius: 5px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.tag-filter.visible {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.tag-filter-toggle {
+    text-align: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    color: #61afef;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.tag-filter-toggle:hover {
+    color: #7ec0ff;
+}
+
+.tag-filter-toggle::before {
+    content: "▼ ";
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.tag-filter-toggle.active::before {
+    transform: rotate(180deg);
+}
+
+.tag-filter-title {
+    color: #abb2bf;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.filter-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-tag {
+    display: inline-block;
+    background: #3e4451;
+    color: #abb2bf;
+    padding: 0.4rem 0.8rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.filter-tag:hover {
+    background: #4b5263;
+}
+
+.filter-tag.active {
+    background: #61afef;
+    color: #282c34;
+    border-color: #61afef;
+}
+
+.clear-filter {
+    background: #e06c75;
+    color: #282c34;
+    margin-left: 1rem;
+}
+
+.clear-filter:hover {
+    background: #e88388;
+}
+
+/* Hide recipes that don't match filter */
+.post-preview.hidden {
+    display: none;
+}
+</style>
+
+<div class="recipe-tabs">
+    <span id="made" class="tab-anchor"></span>
+    <span id="to-try" class="tab-anchor"></span>
+
+    <nav class="recipe-nav" style="text-align: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #3e4451;">
+        <a href="#made" style="color: #98c379; text-decoration: none; margin-right: 2rem; font-weight: 600;">Made</a>
+        <a href="#to-try" style="color: #61afef; text-decoration: none; font-weight: 600;">To Try</a>
+    </nav>
+
+    <div class="tag-filter-toggle" id="toggle-filter">Filter by tag</div>
+
+    <div class="tag-filter" id="tag-filter">
+        <div class="tag-filter-title">Select a tag:</div>
+        <div class="filter-tags">
+            <span class="filter-tag" data-tag="bread">bread</span>
+            <span class="filter-tag" data-tag="bread-maker">bread-maker</span>
+            <span class="filter-tag" data-tag="pizza">pizza</span>
+            <span class="filter-tag clear-filter" id="clear-filter">Clear</span>
+        </div>
+    </div>
+
+    <div class="tab-panels">
+        <section class="blog-posts tab-content" id="made-section">
+            <h2 style="color: #98c379; margin-bottom: 1.5rem;">Recipes I've Made</h2>
+            <p style="color: #abb2bf; margin-bottom: 2rem;">Food I cook and actually enjoy eating.</p>
+            
+            <article class="post-preview" style="border-left-color: #98c379;" data-tags="bread bread-maker">
+                <h3><a href="/recipes/50-50-wholemeal-bread/">50/50 Wholemeal Bread (Medium Loaf)</a></h3>
+                <p>Simple 50/50 wholemeal bread for the bread maker. Does the job.</p>
+                <div class="recipe-tags">
+                    <span class="recipe-tag">bread</span>
+                    <span class="recipe-tag">bread-maker</span>
+                </div>
+                <a href="/recipes/50-50-wholemeal-bread/" class="read-more">Read more →</a>
+            </article>
+        </section>
+
+        <section class="blog-posts tab-content" id="to-try-section">
+            <h2 style="color: #61afef; margin-bottom: 1.5rem;">To Try</h2>
+            <p style="color: #abb2bf; margin-bottom: 2rem;">Recipes on my list to make.</p>
+            
+            <article class="post-preview" style="border-left-color: #61afef;" data-tags="pizza bread-maker">
+                <h3><a href="/recipes/pizza-dough-3-people/">Pizza Dough for 3 People</a></h3>
+                <p>Makes 2 medium pizzas or 1 large + 1 small. Uses program 26 on the bread maker.</p>
+                <div class="recipe-tags">
+                    <span class="recipe-tag">pizza</span>
+                    <span class="recipe-tag">bread-maker</span>
+                </div>
+                <a href="/recipes/pizza-dough-3-people/" class="read-more">Read more →</a>
+            </article>
+        </section>
+    </div>
+</div>
+
+<script>
+// Toggle filter visibility
+const toggleFilter = document.getElementById('toggle-filter');
+const tagFilter = document.getElementById('tag-filter');
+
+toggleFilter.addEventListener('click', () => {
+    tagFilter.classList.toggle('visible');
+    toggleFilter.classList.toggle('active');
+});
+
+// Tag filtering
+const filterTags = document.querySelectorAll('.filter-tag:not(.clear-filter)');
+const clearFilter = document.getElementById('clear-filter');
+const recipes = document.querySelectorAll('.post-preview');
+let activeTag = null;
+
+filterTags.forEach(tag => {
+    tag.addEventListener('click', () => {
+        const tagName = tag.dataset.tag;
+        
+        // Toggle active state
+        if (activeTag === tagName) {
+            // Deactivate
+            tag.classList.remove('active');
+            activeTag = null;
+            showAllRecipes();
+        } else {
+            // Activate new tag
+            filterTags.forEach(t => t.classList.remove('active'));
+            tag.classList.add('active');
+            activeTag = tagName;
+            filterRecipes(tagName);
+        }
+    });
+});
+
+clearFilter.addEventListener('click', () => {
+    filterTags.forEach(t => t.classList.remove('active'));
+    activeTag = null;
+    showAllRecipes();
+});
+
+function filterRecipes(tag) {
+    recipes.forEach(recipe => {
+        const recipeTags = recipe.dataset.tags.split(' ');
+        if (recipeTags.includes(tag)) {
+            recipe.classList.remove('hidden');
+        } else {
+            recipe.classList.add('hidden');
+        }
+    });
+}
+
+function showAllRecipes() {
+    recipes.forEach(recipe => {
+        recipe.classList.remove('hidden');
+    });
+}
+</script>
