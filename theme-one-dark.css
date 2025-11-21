@@ -228,6 +228,11 @@ footer {
     margin-left: 2rem;
 }
 
+.post-content ol {
+    margin-bottom: 1.5rem;
+    margin-left: 2rem;
+}
+
 .post-content li {
     margin-bottom: 0.5rem;
     line-height: 1.8;
