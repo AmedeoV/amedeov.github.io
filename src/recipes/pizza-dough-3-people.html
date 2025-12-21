@@ -5,14 +5,98 @@ date: 2025-11-21
 tags: [pizza, bread-maker]
 ---
 
-<div style="background: #282c34; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; border: 1px solid #3e4451;">
-    <label for="servings" style="margin-right: 0.75rem; font-weight: 500;">Number of people:</label>
-    <button onclick="adjustServings(-1)" style="padding: 0.25rem 0.75rem; font-size: 1.1rem; cursor: pointer;">−</button>
-    <input type="number" id="servings" value="3" min="1" max="12" 
-           onchange="updateRecipe()" 
-           style="width: 60px; margin: 0 0.5rem; text-align: center; padding: 0.25rem; font-size: 1rem;">
-    <button onclick="adjustServings(1)" style="padding: 0.25rem 0.75rem; font-size: 1.1rem; cursor: pointer;">+</button>
-    <span id="portion-info" style="margin-left: 1rem; color: #abb2bf;">Makes 2 medium pizzas or 1 large + 1 small</span>
+<style>
+.serving-adjuster {
+    background: #282c34;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #3e4451;
+}
+
+.serving-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.serving-label {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.serving-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.serving-btn {
+    padding: 0.5rem 0.875rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background: #3e4451;
+    color: #abb2bf;
+    border: 1px solid #4b5263;
+    border-radius: 4px;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+}
+
+.serving-btn:hover {
+    background: #4b5263;
+}
+
+.serving-btn:active {
+    background: #545b6c;
+}
+
+.serving-input {
+    width: 60px;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    border: 1px solid #4b5263;
+    background: #21252b;
+    color: #abb2bf;
+    min-height: 44px;
+}
+
+.portion-info {
+    color: #abb2bf;
+    flex-basis: 100%;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+}
+
+@media (min-width: 600px) {
+    .portion-info {
+        flex-basis: auto;
+        margin-top: 0;
+        margin-left: 1rem;
+    }
+}
+</style>
+
+<div class="serving-adjuster">
+    <div class="serving-controls">
+        <label for="servings" class="serving-label">Number of people:</label>
+        <div class="serving-buttons">
+            <button onclick="adjustServings(-1)" class="serving-btn" aria-label="Decrease servings">−</button>
+            <input type="number" id="servings" value="3" min="1" max="12" 
+                   onchange="updateRecipe()" 
+                   class="serving-input"
+                   aria-label="Number of servings">
+            <button onclick="adjustServings(1)" class="serving-btn" aria-label="Increase servings">+</button>
+        </div>
+        <span id="portion-info" class="portion-info">Makes 2 medium pizzas or 1 large + 1 small</span>
+    </div>
 </div>
 
 <h2>Ingredients</h2>
