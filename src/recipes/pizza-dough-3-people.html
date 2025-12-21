@@ -5,17 +5,25 @@ date: 2025-11-21
 tags: [pizza, bread-maker]
 ---
 
-<p>Makes 2 medium pizzas or 1 large + 1 small. Perfect for 3 people.</p>
+<div style="background: #282c34; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; border: 1px solid #3e4451;">
+    <label for="servings" style="margin-right: 0.75rem; font-weight: 500;">Number of people:</label>
+    <button onclick="adjustServings(-1)" style="padding: 0.25rem 0.75rem; font-size: 1.1rem; cursor: pointer;">−</button>
+    <input type="number" id="servings" value="3" min="1" max="12" 
+           onchange="updateRecipe()" 
+           style="width: 60px; margin: 0 0.5rem; text-align: center; padding: 0.25rem; font-size: 1rem;">
+    <button onclick="adjustServings(1)" style="padding: 0.25rem 0.75rem; font-size: 1.1rem; cursor: pointer;">+</button>
+    <span id="portion-info" style="margin-left: 1rem; color: #abb2bf;">Makes 2 medium pizzas or 1 large + 1 small</span>
+</div>
 
 <h2>Ingredients</h2>
 <p>Add to bread maker in this exact order:</p>
 <ul>
-    <li>230ml water</li>
-    <li>2 tbsp olive oil (about 24g)</li>
-    <li>380g strong white bread flour</li>
-    <li>1 tsp sugar</li>
-    <li>1½ tsp salt</li>
-    <li>1 tsp (3g) Caputo dry yeast</li>
+    <li><span class="ingredient" data-base="230" data-unit="ml">230ml</span> water</li>
+    <li><span class="ingredient" data-base="2" data-unit=" tbsp">2 tbsp</span> olive oil (about <span class="ingredient" data-base="24" data-unit="g">24g</span>)</li>
+    <li><span class="ingredient" data-base="380" data-unit="g">380g</span> strong white bread flour</li>
+    <li><span class="ingredient" data-base="1" data-unit=" tsp">1 tsp</span> sugar</li>
+    <li><span class="ingredient" data-base="1.5" data-unit=" tsp">1½ tsp</span> salt</li>
+    <li><span class="ingredient" data-base="1" data-unit=" tsp">1 tsp</span> (<span class="ingredient" data-base="3" data-unit="g">3g</span>) Caputo dry yeast</li>
 </ul>
 
 <h2>Method</h2>
@@ -37,3 +45,48 @@ tags: [pizza, bread-maker]
 </ul>
 
 <p style="margin-top: 1.5rem; color: #5c6370; font-size: 0.95rem;"><strong>Bread maker:</strong> Panasonic SD-YR2550SXC</p>
+
+<script>
+const BASE_SERVINGS = 3;
+
+function formatNumber(num) {
+    // Round to 1 decimal place and remove trailing zeros
+    const rounded = Math.round(num * 10) / 10;
+    return rounded % 1 === 0 ? rounded.toFixed(0) : rounded.toFixed(1);
+}
+
+function updateRecipe() {
+    const servings = parseInt(document.getElementById('servings').value);
+    const ratio = servings / BASE_SERVINGS;
+    
+    // Update all ingredients
+    document.querySelectorAll('.ingredient').forEach(el => {
+        const baseAmount = parseFloat(el.dataset.base);
+        const unit = el.dataset.unit;
+        const newAmount = baseAmount * ratio;
+        el.textContent = formatNumber(newAmount) + unit;
+    });
+    
+    // Update portion info
+    const portionInfo = document.getElementById('portion-info');
+    if (servings <= 2) {
+        portionInfo.textContent = 'Makes 1 medium pizza';
+    } else if (servings <= 4) {
+        portionInfo.textContent = 'Makes 2 medium pizzas or 1 large + 1 small';
+    } else if (servings <= 6) {
+        portionInfo.textContent = 'Makes 3-4 medium pizzas';
+    } else {
+        portionInfo.textContent = `Makes ${Math.ceil(servings / 1.5)} medium pizzas`;
+    }
+}
+
+function adjustServings(delta) {
+    const input = document.getElementById('servings');
+    const newValue = Math.max(1, Math.min(12, parseInt(input.value) + delta));
+    input.value = newValue;
+    updateRecipe();
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', updateRecipe);
+</script>
