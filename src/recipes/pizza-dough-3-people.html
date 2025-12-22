@@ -87,14 +87,10 @@ tags: [pizza, bread-maker]
 <div class="serving-adjuster">
     <div class="serving-controls">
         <label for="servings" class="serving-label">Number of people:</label>
-        <div class="serving-buttons">
-            <button onclick="adjustServings(-1)" class="serving-btn" aria-label="Decrease servings">−</button>
-            <input type="number" id="servings" value="3" min="1" max="12" 
-                   onchange="updateRecipe()" 
-                   class="serving-input"
-                   aria-label="Number of servings">
-            <button onclick="adjustServings(1)" class="serving-btn" aria-label="Increase servings">+</button>
-        </div>
+        <input type="number" id="servings" value="3" min="1" max="12" 
+               onchange="updateRecipe()" 
+               class="serving-input"
+               aria-label="Number of servings">
         <span id="portion-info" class="portion-info">Makes 2 medium pizzas or 1 large + 1 small</span>
     </div>
 </div>
