@@ -104,6 +104,11 @@
         .system-mastersystem { border-left-color: #2471a3; }
         .system-sg1000 { border-left-color: #1f618d; }
         .system-openbor { border-left-color: #7d3c98; }
+        .game-media { position: relative; width: 100%; aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; margin-bottom: 12px; background: rgba(0,0,0,0.3); }
+        .game-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.3s ease; }
+        .game-media video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.3s ease; }
+        .game-card:hover .game-media video { opacity: 1; }
+        .game-card:hover .game-media img { opacity: 0; }
         .no-results { text-align: center; padding: 60px 20px; color: #a4b0be; }
         .no-results h3 { font-size: 1.5rem; margin-bottom: 10px; }
         footer { text-align: center; padding: 30px; color: #576574; font-size: 0.9rem; }
@@ -210,6 +215,32 @@
             'OpenBOR': '/images/systems/openbor.svg'
         };
 
+        const gameMedia = {
+            'Broken Sword - The Shadow of the Templars': { img: '/images/games/scummvm/broken-sword-1.png', vid: '/images/games/scummvm/broken-sword-1.mp4' },
+            'Broken Sword 2 The Smoking Mirror': { img: '/images/games/scummvm/broken-sword-2.png', vid: '/images/games/scummvm/broken-sword-2.mp4' },
+            'Discworld': { img: '/images/games/scummvm/discworld.png', vid: '/images/games/scummvm/discworld.mp4' },
+            'Discworld II - Missing Presumed...!?': { img: '/images/games/scummvm/discworld-2.png', vid: '/images/games/scummvm/discworld-2.mp4' },
+            'Elvira 1 - Mistress of the Dark': { img: '/images/games/scummvm/elvira-1.png', vid: '/images/games/scummvm/elvira-1.mp4' },
+            'Elvira 2 - The Jaws of Cerberus': { img: '/images/games/scummvm/elvira-2.png', vid: '/images/games/scummvm/elvira-2.mp4' },
+            'Full Throttle': { img: '/images/games/scummvm/full-throttle.png', vid: '/images/games/scummvm/full-throttle.mp4' },
+            'Gabriel Knight 2 The Beast Within': { img: '/images/games/scummvm/gabriel-knight-2.png', vid: '/images/games/scummvm/gabriel-knight-2.mp4' },
+            'Gabriel Knight Sins Of The Fathers': { img: '/images/games/scummvm/gabriel-knight-1.png', vid: '/images/games/scummvm/gabriel-knight-1.mp4' },
+            'Grim Fandango Remastered': { img: '/images/games/scummvm/grim-fandango.png', vid: '/images/games/scummvm/grim-fandango.mp4' },
+            'I Have No Mouth, and I Must Scream': { img: '/images/games/scummvm/i-have-no-mouth.png', vid: '/images/games/scummvm/i-have-no-mouth.mp4' },
+            'Indiana Jones and the Fate of Atlantis': { img: '/images/games/scummvm/indiana-jones-atlantis.png', vid: '/images/games/scummvm/indiana-jones-atlantis.mp4' },
+            'Indiana Jones and the Last Crusade': { img: '/images/games/scummvm/indiana-jones-last-crusade.png', vid: '/images/games/scummvm/indiana-jones-last-crusade.mp4' },
+            'Maniac Mansion': { img: '/images/games/scummvm/maniac-mansion.png', vid: '/images/games/scummvm/maniac-mansion.mp4' },
+            'Monkey Island 2 - LeChuck\'s Revenge': { img: '/images/games/scummvm/monkey-island-2.png', vid: '/images/games/scummvm/monkey-island-2.mp4' },
+            'Myst': { img: '/images/games/scummvm/myst.png', vid: '/images/games/scummvm/myst.mp4' },
+            'Phantasmagoria': { img: '/images/games/scummvm/phantasmagoria.png', vid: '/images/games/scummvm/phantasmagoria.mp4' },
+            'Phantasmagoria 2': { img: '/images/games/scummvm/phantasmagoria-2.png', vid: null },
+            'Riven - The Sequel to Myst': { img: '/images/games/scummvm/riven.png', vid: '/images/games/scummvm/riven.mp4' },
+            'Sam & Max Hit the Road': { img: '/images/games/scummvm/sam-and-max.png', vid: '/images/games/scummvm/sam-and-max.mp4' },
+            'The 7th Guest': { img: '/images/games/scummvm/the-7th-guest.png', vid: '/images/games/scummvm/the-7th-guest.mp4' },
+            'The Curse of Monkey Island': { img: '/images/games/scummvm/curse-of-monkey-island.png', vid: '/images/games/scummvm/curse-of-monkey-island.mp4' },
+            'The Secret of Monkey Island': { img: '/images/games/scummvm/secret-of-monkey-island.png', vid: '/images/games/scummvm/secret-of-monkey-island.mp4' }
+        };
+
         let currentFilter = 'all';
         let currentPage = 0;
         const PAGE_SIZE = 200;
@@ -279,7 +310,17 @@
             grid.innerHTML = toShow.map(g => {
                 const info = systemInfo[g.System] || { class: '', display: g.System };
                 const sysIcon = systemIcons[g.System] ? '<span class="system-icon"><img src="' + systemIcons[g.System] + '" alt="' + info.display + '" loading="lazy"></span>' : '';
-                return '<div class="game-card ' + info.class + '">' +
+                const media = gameMedia[g.Name];
+                let mediaHtml = '';
+                if (media) {
+                    mediaHtml = '<div class="game-media">' +
+                        '<img src="' + media.img + '" alt="' + escapeHtml(g.Name) + '" loading="lazy">' +
+                        (media.vid ? '<video src="' + media.vid + '" muted loop preload="none"></video>' : '') +
+                        '</div>';
+                }
+                return '<div class="game-card ' + info.class + '"' +
+                    (media && media.vid ? ' onmouseenter="this.querySelector(\'video\').play()" onmouseleave="this.querySelector(\'video\').pause();this.querySelector(\'video\').currentTime=0"' : '') +
+                    '>' + mediaHtml +
                     '<div class="game-name">' + escapeHtml(g.Name) + '</div>' +
                     '<span class="game-system">' + sysIcon + info.display + '</span></div>';
             }).join('');
